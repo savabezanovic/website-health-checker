@@ -62,15 +62,17 @@ class ProjectController extends Controller
   public function update(ProjectRequest $request, $slug)
   {
 
-    $this->projectService->update($request, $slug);
+    $attributes = $request->except('_method', '_token');
 
-    return redirect("/project/" . $slug);
+    $this->projectService->update($slug, $attributes);
+
+    return redirect("/projects");
   }
 
   public function delete($slug)
   {
     $this->projectService->delete($slug);
 
-    return redirect("/projects")->with(['status' => 'Deleted successfully']);
+    return redirect("/projects");
   }
 }

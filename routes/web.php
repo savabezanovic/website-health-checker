@@ -18,6 +18,7 @@ Auth::routes();
 
 Route::get("/", "HomeController@home");
 
+
 Route::get('/projects', 'ProjectController@showProjects');
 
 Route::get('/project/create', 'ProjectController@create');

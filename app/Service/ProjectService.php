@@ -34,11 +34,8 @@ class ProjectService
 	}
 
 
-	public function update($request, $slug)
+	public function update($slug, $attributes)
 	{
-
-		$attributes = $request->except('_method', '_token');
-
 		return $this->project->update($slug, $attributes);
 	}
 
