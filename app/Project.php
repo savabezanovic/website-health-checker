@@ -23,5 +23,16 @@ class Project extends Model
         'name', "user_id"
     ];
 
+    public function user() {
+
+        return $this->belongsTo(User::class, "user_id");
+
+    }
+
+    public function projectUrls() {
+
+        return $this->hasMany(ProjectUrl::class);
+
+    }
 
 }

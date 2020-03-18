@@ -14,7 +14,6 @@
                 <label for="name">Name</label>
 
                 <input class="form-control" name="name" type="text" placeholder="Project name">
-                <input name="user_id" type="hidden" value="{{auth()->user()->id}}">
                 
                 <br>
 

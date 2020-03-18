@@ -28,3 +28,6 @@ Route::get("/project/{slug}", "ProjectController@showProject");
 Route::get('/project/edit/{slug}', 'ProjectController@edit');
 Route::put('/project/update/{slug}', 'ProjectController@update');
 Route::delete('/project/delete/{slug}', 'ProjectController@delete');
+
+Route::post("/project/store/url/{slug}", "ProjectUrlController@store");
+Route::delete("/project/delete/url/{id}", "ProjectUrlController@delete");

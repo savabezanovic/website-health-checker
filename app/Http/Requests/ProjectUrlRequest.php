@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProjectRequest extends FormRequest
+class ProjectUrlRequest extends FormRequest
 {
     public function authorize()
     {
@@ -19,7 +19,7 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'url' => 'required'
         ];
     }
 }
