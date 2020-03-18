@@ -9,34 +9,41 @@ class ProjectService
 {
 	public function __construct(ProjectRepository $project)
 	{
-		$this->project = $project ;
+		$this->project = $project;
 	}
 
-	public function index()
+	public function showProjects()
 	{
-		return $this->project->all();
+		return $this->project->showProjects();
 	}
 
-        public function store($projectData)
+	public function showProject($slug)
 	{
-         
-        return $this->project->store($projectData);
+		return $this->project->showProject($slug);
+	}
+
+	public function store($projectData)
+	{
+
+		return $this->project->store($projectData);
 	}
 
 	public function edit($slug)
 	{
-     return $this->project->find($slug);
+		return $this->project->find($slug);
 	}
 
-	public function update(Request $request, $slug)
+
+	public function update($request, $slug)
 	{
-	  $attributes = $request->all();
-	  
-      return $this->project->update($slug, $attributes);
+
+		$attributes = $request->except('_method', '_token');
+
+		return $this->project->update($slug, $attributes);
 	}
 
 	public function delete($slug)
 	{
-      return $this->project->delete($slug);
+		return $this->project->delete($slug);
 	}
 }

@@ -7,64 +7,70 @@ use App\Http\Requests\ProjectRequest;
 use App\Services\ProjectService;
 
 class ProjectController extends Controller
-{ 
+{
 
-	protected $projectservice;
+  protected $projectService;
 
-	public function __construct(ProjectService $projectservice)
-	{
-		  $this->projectservice = $projectservice;
+  public function __construct(ProjectService $projectService)
+
+  {
+
+    $this->projectService = $projectService;
   }
-  
-    public function index(){
-       
-    $projects = $this->projectservice->index();
-     
-    return view('home', compact('projects'));
-    }
 
-    public function show($slug)
-    {
-      return view("read", compact("projects"));
-    }
+  public function showProjects()
 
-    public function create() {
+  {
 
-      return view('create-project');
+    $projects = $this->projectService->showProjects();
 
-    }
+    return view('projects.show-projects')->with("projects", $projects);
+  }
 
-    public function store(ProjectRequest $request) {
+  public function showProject($slug)
+  {
 
-      $projectData = $request->all();
+    $project = $this->projectService->showProject($slug);
 
-      $this->projectservice->store($projectData);
+    return view("projects.show-project")->with("project", $project);
+  }
 
-      return redirect('/');
+  public function create()
+  {
 
-    }
+    return view('projects.create-project');
+  }
 
-    public function edit($slug)
-    {
-       
-       $project = $this->projectservice->edit($slug);
+  public function store(ProjectRequest $request)
+  {
 
-       return view('edit', compact('project'));
+    $projectData = $request->all();
 
-    }
+    $this->projectService->store($projectData);
 
-    public function update(ProjectService $request, $slug)
-    {
+    return redirect('/projects');
+  }
 
-      $this->projectservice->update($request, $slug);
+  public function edit($slug)
+  {
 
-     return redirect()->back()->with('status', 'Project has been updated succesfully');
-    }
+    $project = $this->projectService->edit($slug);
 
-    public function delete($slug)
-    {
-     $this->projectservice->delete($slug);
+    return view('projects.edit-project')->with("project", $project);
+  }
 
-     return back()->with(['status'=>'Deleted successfully']);
-    }
+  public function update(ProjectRequest $request, $slug)
+  {
+
+    $this->projectService->update($request, $slug);
+
+    return redirect("/project/" . $slug);
+  }
+
+  public function delete($slug)
+  {
+    $this->projectService->delete($slug);
+
+    return redirect("/projects")->with(['status' => 'Deleted successfully']);
+  }
 }
