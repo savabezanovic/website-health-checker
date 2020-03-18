@@ -18,7 +18,7 @@ class ProjectUrlController extends Controller
     {
 
         $this->middleware('auth');
-        $this->projectService = $projectUrlService;
+        $this->projectUrlService = $projectUrlService;
     }
 
     public function store(ProjectUrlRequest $request, $slug)
@@ -26,7 +26,7 @@ class ProjectUrlController extends Controller
 
         $projectUrlData = $request->all();
 
-        $this->projectService->store($projectUrlData, $slug);
+        $this->projectUrlService->store($projectUrlData, $slug);
 
         return redirect('/project/edit/' . $slug);
     }
