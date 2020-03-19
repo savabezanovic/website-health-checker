@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectUrl extends Model
+class Check extends Model
 {
 
     protected $fillable = [
@@ -13,12 +13,7 @@ class ProjectUrl extends Model
 
     public function project() {
         
-        return $this->belongsTo(Project::class);
-
-    }
-    public function check() {
-
-        return $this->hasMany(Check::class);
+        return $this->belongsTo(ProjectUrl::class);
 
     }
 }

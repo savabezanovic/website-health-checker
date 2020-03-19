@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\ProjectUrl;
+use App\Check;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -17,11 +17,10 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(ProjectUrl::class, function (Faker $faker) {
+$factory->define(Check::class, function (Faker $faker) {
     return [
-        'url' => $faker->url,
-        'project_id' => $faker->numberBetween($min = 1, $max = 10),
-        "frequency" => 60 ,
-        "checked_at" => $faker->DateTime('2020-02-25 08:37:17', 'UTC')
+        'url_id' => $faker->numberBetween($min = 1, $max = 10) ,
+        'response_status' => 200,
+        "response_time" => 5  
     ];
 });

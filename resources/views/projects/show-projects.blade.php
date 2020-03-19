@@ -9,7 +9,6 @@
             @foreach($projects as $project)
             <a href="/project/{{$project->slug}}">
                 <p>{{$project->name}}</p>
-
             </a>
             @endforeach
         </div>

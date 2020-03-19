@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddForeignKeysToProjectTable extends Migration
+class AddForeignKeysToChecksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddForeignKeysToProjectTable extends Migration
      */
     public function up()
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->foreign("user_id")->references("id")->on("users")->onDelete('cascade');
+        Schema::table('checks', function (Blueprint $table) {
+            $table->foreign("url_id")->references("id")->on("project_urls")->onDelete('cascade');
         });
     }
 
@@ -25,7 +25,7 @@ class AddForeignKeysToProjectTable extends Migration
      */
     public function down()
     {
-        Schema::table('project', function (Blueprint $table) {
+        Schema::table('checks', function (Blueprint $table) {
             //
         });
     }

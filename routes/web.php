@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get("/", "HomeController@home");
+Route::get("/home", "HomeController@home");
 
 
 Route::get('/projects', 'ProjectController@showProjects');

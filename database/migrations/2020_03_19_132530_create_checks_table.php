@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectUrlsTable extends Migration
+class CreateChecksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateProjectUrlsTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_urls', function (Blueprint $table) {
+        Schema::create('checks', function (Blueprint $table) {
             $table->id();
-            $table->string("url");
-            $table->bigInteger('project_id')->unsigned();
-            $table->integer("frequency");
-            $table->timestamp("checked_at");
+            $table->bigInteger('url_id')->unsigned();
+            $table->integer("response_status");
+            $table->float("response_time");
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateProjectUrlsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_urls');
+        Schema::dropIfExists('checks');
     }
 }
