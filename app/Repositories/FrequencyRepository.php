@@ -18,5 +18,9 @@ class FrequencyRepository
   {
     return $this->frequency->find($id);
   }
+  public function all()
+  {
+    return $this->frequency->all();
+  }
 
 }

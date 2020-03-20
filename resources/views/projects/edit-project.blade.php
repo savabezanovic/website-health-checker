@@ -46,7 +46,7 @@
 
 
             @foreach($project->projectUrls as $projectUrl)
-            
+                
             <form method="POST" action="{{action('ProjectUrlController@update', $projectUrl->id)}}">
                 @csrf
 
@@ -61,7 +61,7 @@
                 <select name="frequency">
                 @foreach($frequencies as $frequency)
         
-                    <option @if($projectUrl->frequency_id == $frequency->id) selected @endif value="{{$frequency->id}}">{{$frequency->name}}</option>
+                    <option @if($projectUrl->frequency_id === $frequency->id) selected @endif value="{{$frequency->id}}">{{$frequency->name}}</option>
     
                 @endforeach
                 </select>

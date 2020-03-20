@@ -23,6 +23,6 @@ class ProjectUrl extends Model
     }
 
     public function frequency(){
-        return $this->hasOne(Frequency::class);
+        return $this->belongsTo(Frequency::class);
     }
 }

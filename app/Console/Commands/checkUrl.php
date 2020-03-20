@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Check;
+use App\ProjectUrl;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-
-use App\ProjectUrl;
-use App\Check;
-use Carbon\Carbon;
 
 class CheckUrl extends Command
 {
@@ -16,14 +15,14 @@ class CheckUrl extends Command
      *
      * @var string
      */
-    protected $signature = 'command:CheckUrl';
+    protected $signature = 'command:checkUrl';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Check Url and save status ';
 
     /**
      * Create a new command instance.
@@ -45,8 +44,8 @@ class CheckUrl extends Command
         $urls = ProjectUrl::all();
 
         foreach ($urls as $url) {
-            if (Carbon::now()->diffInMilliseconds($url->last_checked_at) > $url->check_frequency * 1000) {
-                
+            if (Carbon::now()->diffInMilliseconds($url->checked_at) > $url->frequency->seconds * 1000) {
+
                 $check = new Check();
 
                 $timeBefore = Carbon::now();
@@ -55,10 +54,10 @@ class CheckUrl extends Command
 
                 $check->url_id = $url->id;
                 $check->response_status = $response->status();
-                $check->response_time = $timeAfter->diffInMiliseconds($timeBefore);
-                
+                $check->response_time = $timeAfter->diffInMilliseconds($timeBefore);
+
                 $url->checked_at = Carbon::now();
-                
+
                 $url->save();
                 $check->save();
             }

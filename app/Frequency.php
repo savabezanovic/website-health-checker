@@ -13,6 +13,6 @@ class Frequency extends Model
 
     
     public function projectUrls() {
-        return $this->belongsToMany(ProjectUrl::class);
+        return $this->hasMany(ProjectUrl::class);
     }
 }

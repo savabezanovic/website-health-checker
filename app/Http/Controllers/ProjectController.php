@@ -5,19 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProjectRequest;
 use App\Services\ProjectService;
-
-use App\Frequency;
+use App\Services\FrequencyService;
 
 class ProjectController extends Controller
 {
 
   protected $projectService;
+  protected $frequencyService;
 
-  public function __construct(ProjectService $projectService)
+  public function __construct(ProjectService $projectService, FrequencyService $frequencyService)
 
   {
 
     $this->projectService = $projectService;
+    $this->frequencyService = $frequencyService;
   }
 
   public function showProjects()
@@ -56,7 +57,7 @@ class ProjectController extends Controller
   public function edit($slug)
   {
 
-    $frequencies = Frequency::all();
+    $frequencies = $this->frequencyService->all();
 
     $project = $this->projectService->edit($slug);
 
