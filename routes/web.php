@@ -31,4 +31,5 @@ Route::put('/project/update/{slug}', 'ProjectController@update');
 Route::delete('/project/delete/{slug}', 'ProjectController@delete');
 
 Route::post("/project/store/url/{slug}", "ProjectUrlController@store");
+Route::put("/project/update/url/{id}", "ProjectUrlController@update");
 Route::delete("/project/delete/url/{id}", "ProjectUrlController@delete");

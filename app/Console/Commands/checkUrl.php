@@ -45,8 +45,8 @@ class CheckUrl extends Command
         $urls = ProjectUrl::all();
 
         foreach ($urls as $url) {
-            if (Carbon::now()->diffInSeconds($url->checked_at) > $url->frequency) {
-
+            if (Carbon::now()->diffInMilliseconds($url->last_checked_at) > $url->check_frequency * 1000) {
+                
                 $check = new Check();
 
                 $timeBefore = Carbon::now();
@@ -56,8 +56,6 @@ class CheckUrl extends Command
                 $check->url_id = $url->id;
                 $check->response_status = $response->status();
                 $check->response_time = $timeAfter->diffInMiliseconds($timeBefore);
-                $check->checked_at = 
-                
                 
                 $url->checked_at = Carbon::now();
                 

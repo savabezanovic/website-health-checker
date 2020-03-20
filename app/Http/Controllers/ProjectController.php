@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProjectRequest;
 use App\Services\ProjectService;
 
+use App\Frequency;
+
 class ProjectController extends Controller
 {
 
@@ -54,9 +56,11 @@ class ProjectController extends Controller
   public function edit($slug)
   {
 
+    $frequencies = Frequency::all();
+
     $project = $this->projectService->edit($slug);
 
-    return view('projects.edit-project')->with("project", $project);
+    return view('projects.edit-project')->with("project", $project)->with("frequencies", $frequencies);
   }
 
   public function update(ProjectRequest $request, $slug)

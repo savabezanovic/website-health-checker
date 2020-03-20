@@ -26,10 +26,19 @@
             <form method="POST" action="{{action('ProjectUrlController@store', $project->slug)}}">
                 @csrf
 
-                <span for="url"> URL:</span>
+                <span for="url">Add URL:</span>
 
                 <input class="form-control" type="text" name="url"></input>
 
+                <label for="frequency">Choose a frequency:</label>
+                <select name="frequency">
+                @foreach($frequencies as $frequency)
+                
+                    <option value="{{$frequency->id}}">{{$frequency->name}}</option>
+                   
+                
+                @endforeach
+                </select>
                 <button class="form-control" type="submit">Add URL</button>
 
             </form>
@@ -38,13 +47,32 @@
 
             @foreach($project->projectUrls as $projectUrl)
             
+            <form method="POST" action="{{action('ProjectUrlController@update', $projectUrl->id)}}">
+                @csrf
+
+                @method("PUT")
+
+                <span for="url">Edit URL:</span>
+
+                <input class="form-control" type="text" name="url" value="{{$projectUrl->url}}" required></input>
+                
+                <label for="frequency">Choose a frequency:</label>
+
+                <select name="frequency">
+                @foreach($frequencies as $frequency)
+        
+                    <option @if($projectUrl->frequency_id == $frequency->id) selected @endif value="{{$frequency->id}}">{{$frequency->name}}</option>
+    
+                @endforeach
+                </select>
+
+                <button class="form-control" type="submit">Edit URL</button>
+
+            </form>
+
             <form method="POST" action="{{action('ProjectUrlController@delete', $projectUrl->id)}}">
                 @csrf
                 @method("DELETE")
-
-                <span for="url"> URL:</span>
-
-                <input class="form-control" type="text" name="url" value="{{$projectUrl->url}}" required></input>
 
                 <button class="form-control" type="submit">Delete URL</button>
 

@@ -28,7 +28,17 @@ class ProjectUrlController extends Controller
 
         $this->projectUrlService->store($projectUrlData, $slug);
 
-        return redirect('/project/edit/' . $slug);
+        return redirect()->back();
+    }
+
+    public function update(ProjectUrlRequest $request, $id)
+    {
+    
+      $attributes = $request->except('_method', '_token');
+      
+      $this->projectUrlService->update($attributes, $id);
+  
+      return redirect()->back();
     }
 
     // public function delete($id)

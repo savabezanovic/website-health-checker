@@ -22,6 +22,11 @@ class ProjectUrlService
 		return $this->projectUrl->store($projectUrlData, $slug);
 	}
 
+	public function update($attributes, $id)
+	{
+		return $this->projectUrl->update($attributes, $id);
+	}
+
 	public function delete($id)
 	{
 		return $this->projectUrl->delete($id);

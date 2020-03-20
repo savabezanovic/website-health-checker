@@ -43,13 +43,8 @@ class ProjectRepository
   {
 
     $project = $this->project->where('slug', '=', $slug)->first();
-    
-    //$project->slug = null;
-    //$project->save();
-    
+  
     return $project->update($attributes);
-
-    //return $this->project->where('slug', '=', $slug)->update($attributes);
   }
 
   public function delete($slug)

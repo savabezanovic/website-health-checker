@@ -8,10 +8,10 @@ class Check extends Model
 {
 
     protected $fillable = [
-        'url', 'project_id'
+        'url_id', "response_code", "response_status"
     ];
 
-    public function project() {
+    public function projectUrl() {
         
         return $this->belongsTo(ProjectUrl::class);
 

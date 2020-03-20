@@ -27,6 +27,8 @@ class ProjectUrlRepository
 
     $projectUrl->url = $projectUrlData["url"];
 
+    $projectUrl->frequency_id = $projectUrlData["frequency"];
+
     $project = Project::where("slug", "=", $slug)->first();
 
     $projectUrl->project_id = $project->id;
@@ -34,11 +36,19 @@ class ProjectUrlRepository
     $projectUrl->save();
   }
 
+  public function update($attributes, $id)
+  {
+ 
+    $projectUrl = $this->projectUrl->find($id);
+    
+    return $projectUrl->update(['frequency_id' => $attributes["frequency"], "url" =>$attributes["url"]]);
+  
+  }
+
   public function delete($id)
 
   {
-   
-    return $this->projectUrl->find($id)->delete();
 
+    return $this->projectUrl->find($id)->delete();
   }
 }

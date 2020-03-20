@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Carbon\Carbon;
 
-class CreateProjectUrlsTable extends Migration
+class CreateFrequenciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +13,10 @@ class CreateProjectUrlsTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_urls', function (Blueprint $table) {
+        Schema::create('frequencies', function (Blueprint $table) {
             $table->id();
-            $table->string("url");
-            $table->bigInteger('project_id')->unsigned();
-            $table->bigInteger('frequency_id')->unsigned();
-            $table->timestamp("checked_at")->nullable();
+            $table->string("name");
+            $table->integer("seconds");
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateProjectUrlsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_urls');
+        Schema::dropIfExists('frequencies');
     }
 }
