@@ -7,8 +7,8 @@ use App\ProjectUrl;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Exception;
+
 
 class CheckUrl extends Command
 {
@@ -37,8 +37,6 @@ class CheckUrl extends Command
 
                 $timeBefore = Carbon::now();
 
-                $response = "";
-
                 try {
 
                     $response = Http::get($url->url);
@@ -48,6 +46,7 @@ class CheckUrl extends Command
                 } catch (Exception $e) {
 
                     $check->response_status = 0;
+                    
                 }
 
                 $timeAfter = Carbon::now();

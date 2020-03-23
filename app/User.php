@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
+use App\Notifications\ProjectAlert;
+
 
 class User extends Authenticatable
 {
@@ -52,6 +54,10 @@ class User extends Authenticatable
 
         return $this->hasMany(Project::class);
 
+    }
+
+    public function notify($data) {
+        return $this->notify(new ProjectAlert($data));
     }
 
 }
