@@ -22,6 +22,6 @@ $factory->define(ProjectUrl::class, function (Faker $faker) {
         'url' => $faker->url,
         'project_id' => $faker->numberBetween($min = 1, $max = 10),
         "frequency_id" => 1 ,
-        "checked_at" => $faker->DateTime('2020-02-25 08:37:17', 'UTC')
+        "checked_at" => '2020-02-25 08:37:17'
     ];
 });

@@ -19,7 +19,7 @@ class CreateProjectUrlsTable extends Migration
             $table->string("url");
             $table->bigInteger('project_id')->unsigned();
             $table->bigInteger('frequency_id')->unsigned();
-            $table->timestamp("checked_at")->nullable();
+            $table->timestamp("checked_at");
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\ProjectUrl;
 use App\Project;
+use Carbon\Carbon;
 
 class ProjectUrlRepository
 {
@@ -30,6 +31,8 @@ class ProjectUrlRepository
     $projectUrl->frequency_id = $projectUrlData["frequency"];
 
     $project = Project::where("slug", "=", $slug)->first();
+
+    $projectUrl->checked_at = Carbon::now();
 
     $projectUrl->project_id = $project->id;
 

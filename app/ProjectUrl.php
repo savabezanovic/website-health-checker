@@ -8,7 +8,7 @@ class ProjectUrl extends Model
 {
 
     protected $fillable = [
-        'url', 'project_id', "frequency_id"
+        'url', 'project_id', "frequency_id", "checked_at"
     ];
 
     public function project() {
