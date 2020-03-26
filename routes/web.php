@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\MailtrapExample;
+use App\Mail\ProjectDownNotification;
+use App\Mail\ProjectUpNotification;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +34,33 @@ Route::get('/project/edit/{slug}', 'ProjectController@edit');
 Route::put('/project/update/{slug}', 'ProjectController@update');
 Route::delete('/project/delete/{slug}', 'ProjectController@delete');
 
-Route::post("/project/store/url/{slug}", "ProjectUrlController@store");
+Route::get("project/{slug}/urls", "ProjectUrlController@showUrls");
+Route::get("project/{slug}/add/url", "ProjectUrlController@add");
+Route::post("/project/{slug}/store/url", "ProjectUrlController@store");
+Route::get("/project/{slug}/edit/url/{id}", "ProjectUrlController@edit");
 Route::put("/project/update/url/{id}", "ProjectUrlController@update");
 Route::delete("/project/delete/url/{id}", "ProjectUrlController@delete");
+
+Route::get('/send-mail', function () {
+
+    Mail::to('newuser@example.com')->send(new MailtrapExample()); 
+
+    return 'A message has been sent to Mailtrap!';
+
+});
+
+Route::get('/project-down-notification', function () {
+
+    Mail::to('savabezanovic@hotmail.com')->send(new ProjectDownNotification()); 
+
+    return 'A message has been sent to savabezanovic@hotmail.com!';
+
+});
+
+Route::get('/project-up-notification', function () {
+
+    Mail::to('savabezanovic@hotmail.com')->send(new ProjectUpNotification()); 
+
+    return 'A message has been sent to savabezanovic@hotmail.com!';
+
+});

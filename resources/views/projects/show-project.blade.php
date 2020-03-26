@@ -4,16 +4,22 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
             <h1>This is the data from one project</h1>
+
             <p>{{$project->name}}</p>
+
             <a href="/project/edit/{{$project->slug}}">Edit Project</a>
+
+            <a href="/project/{{$project->slug}}/urls">Show URLs</a>
+
             <form action="{{action('ProjectController@delete', $project->slug)}}" method="POST">
 
                 @method("DELETE")
 
                 @csrf
 
-                <input type="submit" value="Delete">
+                <input type="submit" value="Delete Project">
 
             </form>
         </div>

@@ -20,6 +20,6 @@ use Illuminate\Support\Str;
 $factory->define(Project::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'user_id' => $faker->unique()->numberBetween($min = 1, $max = 10) 
+        'user_id' => $faker->unique()->numberBetween($min = 1, $max = 10)
     ];
 });

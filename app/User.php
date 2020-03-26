@@ -6,7 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
-use App\Notifications\ProjectAlert;
+use App\Mail\ProjectDownNotification;
+use App\Mail\ProjectUpNotification;
+use Illuminate\Support\Facades\Mail;
 
 
 class User extends Authenticatable
@@ -50,14 +52,23 @@ class User extends Authenticatable
         ];
     }
 
-    public function createdProjects() {
+    public function createdProjects()
+    {
 
         return $this->hasMany(Project::class);
-
     }
 
-    public function notify($data) {
-        return $this->notify(new ProjectAlert($data));
+    public function notifyDown()
+    {
+        Mail::to('savabezanovic@hotmail.com')->send(new ProjectDownNotification());
+
+        return 'A message has been sent to savabezanovic@hotmail.com!';
     }
 
+    public function notifyUp()
+    {
+        Mail::to('savabezanovic@hotmail.com')->send(new ProjectUpNotification());
+
+        return 'A message has been sent to savabezanovic@hotmail.com!';
+    }
 }

@@ -17,6 +17,11 @@ class ProjectUrlService
 		return $this->projectUrl->find($id);
 	}
 
+	public function showUrls($slug)
+	{
+		return $this->projectUrl->showUrls($slug);
+	}
+
 	public function store($projectUrlData, $slug)
 	{
 		return $this->projectUrl->store($projectUrlData, $slug);

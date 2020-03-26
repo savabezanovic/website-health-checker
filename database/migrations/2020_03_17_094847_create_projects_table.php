@@ -18,6 +18,7 @@ class CreateProjectsTable extends Migration
             $table->string("name");
             $table->bigInteger('user_id')->unsigned();
             $table->string("slug")->unique();
+            $table->boolean("up")->default(0);
             $table->timestamps();
         });
     }

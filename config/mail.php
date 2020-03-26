@@ -33,16 +33,27 @@ return [
     |
     */
 
-    'mailers' => [
-        'smtp' => [
-            'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
-        ],
+    // 'mailers' => [
+    //     'smtp' => [
+    //         'transport' => 'smtp',
+    //         'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    //         'port' => env('MAIL_PORT', 587),
+    //         'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    //         'username' => env('MAIL_USERNAME'),
+    //         'password' => env('MAIL_PASSWORD'),
+    //         'timeout' => null,
+    //     ],
+
+        'mailers' => [
+            'smtp' => [
+                'transport' => 'smtp',
+                'host' => "smtp.mailtrap.io",
+                'port' => 2525,
+                'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+                'username' => "75299bb8945105",
+                'password' => "fafc9a8b6e47a5",
+                'timeout' => null,
+            ],
 
         'ses' => [
             'transport' => 'ses',
@@ -69,6 +80,9 @@ return [
         'array' => [
             'transport' => 'array',
         ],
+
+        "driver" => "smtp",
+        
     ],
 
     /*
@@ -82,10 +96,17 @@ return [
     |
     */
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
-    ],
+    
+    "from" => array(
+        "address" => "from@example.com",
+        "name" => "Example"
+    ),
+  
+
+    // 'from' => [
+    //     'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+    //     'name' => env('MAIL_FROM_NAME', 'Example'),
+    // ],
 
     /*
     |--------------------------------------------------------------------------

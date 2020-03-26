@@ -11,14 +11,14 @@ class ProjectController extends Controller
 {
 
   protected $projectService;
-  protected $frequencyService;
+  
 
-  public function __construct(ProjectService $projectService, FrequencyService $frequencyService)
+  public function __construct(ProjectService $projectService)
 
   {
 
     $this->projectService = $projectService;
-    $this->frequencyService = $frequencyService;
+    
   }
 
   public function showProjects()
@@ -57,11 +57,11 @@ class ProjectController extends Controller
   public function edit($slug)
   {
 
-    $frequencies = $this->frequencyService->all();
+  
 
     $project = $this->projectService->edit($slug);
 
-    return view('projects.edit-project')->with("project", $project)->with("frequencies", $frequencies);
+    return view('projects.edit-project')->with("project", $project);
   }
 
   public function update(ProjectRequest $request, $slug)

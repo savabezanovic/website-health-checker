@@ -21,6 +21,17 @@ class ProjectUrlRepository
     return $this->projectUrl->find($id);
   }
 
+  public function showUrls($slug)
+  {
+
+    $project = Project::where("slug", "=", $slug)->first();
+
+    $projectUrls = $this->projectUrl->where("project_id", "=", $project->id)->get();
+
+    return $projectUrls;
+
+  }
+
   public function store($projectUrlData, $slug)
   {
 
