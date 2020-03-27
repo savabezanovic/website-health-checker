@@ -57,18 +57,4 @@ class User extends Authenticatable
 
         return $this->hasMany(Project::class);
     }
-
-    public function notifyDown()
-    {
-        Mail::to('savabezanovic@hotmail.com')->send(new ProjectDownNotification());
-
-        return 'A message has been sent to savabezanovic@hotmail.com!';
-    }
-
-    public function notifyUp()
-    {
-        Mail::to('savabezanovic@hotmail.com')->send(new ProjectUpNotification());
-
-        return 'A message has been sent to savabezanovic@hotmail.com!';
-    }
 }

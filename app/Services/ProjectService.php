@@ -4,10 +4,6 @@ namespace App\Services;
 
 
 use App\Repositories\ProjectRepository;
-use App\Mail\ProjectDownNotification;
-use App\Mail\ProjectUpNotification;
-use App\Project;
-use App\User;
 
 class ProjectService
 {
@@ -46,19 +42,6 @@ class ProjectService
 	public function delete($slug)
 	{
 		return $this->project->delete($slug);
-	}
-
-	public function projectDown($id)
-	{
-		$user = User::find($id);
-		$user->notifyDown();
-	}
-
-	public function projectUp($id)
-	{
-		$user = User::find($id);
-		$user->notifyUp();
-		
 	}
 
 }

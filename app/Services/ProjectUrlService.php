@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\ProjectUrlRepository;
-use Illuminate\Http\Request;
 
 class ProjectUrlService
 {
@@ -15,6 +14,11 @@ class ProjectUrlService
 	public function find($id)
 	{
 		return $this->projectUrl->find($id);
+	}
+
+	public function all()
+	{
+		return $this->projectUrl->all();
 	}
 
 	public function showUrls($slug)
@@ -35,5 +39,10 @@ class ProjectUrlService
 	public function delete($id)
 	{
 		return $this->projectUrl->delete($id);
+	}
+
+	public function testUrl($url)
+	{
+		return $this->projectUrl->testUrl($url);
 	}
 }

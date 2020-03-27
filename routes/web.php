@@ -48,19 +48,3 @@ Route::get('/send-mail', function () {
     return 'A message has been sent to Mailtrap!';
 
 });
-
-Route::get('/project-down-notification', function () {
-
-    Mail::to('savabezanovic@hotmail.com')->send(new ProjectDownNotification()); 
-
-    return 'A message has been sent to savabezanovic@hotmail.com!';
-
-});
-
-Route::get('/project-up-notification', function () {
-
-    Mail::to('savabezanovic@hotmail.com')->send(new ProjectUpNotification()); 
-
-    return 'A message has been sent to savabezanovic@hotmail.com!';
-
-});

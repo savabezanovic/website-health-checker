@@ -16,4 +16,10 @@ class CheckService
 	{
 		return $this->check->find($id);
 	}
+
+	public function new()
+	{
+		return $this->check->new();
+	}
+
 }

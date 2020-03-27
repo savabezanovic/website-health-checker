@@ -19,4 +19,10 @@ class CheckRepository
     return $this->check->find($id);
   }
 
+  public function new()
+  {
+    $check = new Check();
+    return $check;
+  }
+
 }

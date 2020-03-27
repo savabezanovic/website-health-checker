@@ -5,15 +5,21 @@ namespace App\Repositories;
 use App\ProjectUrl;
 use App\Project;
 use Carbon\Carbon;
+use Exception;
+use App\Services\CheckService;
+use App\Services\UserService;
+use Illuminate\Support\Facades\Http;
 
 class ProjectUrlRepository
 {
 
   protected $projectUrl;
 
-  public function __construct(ProjectUrl $projectUrl)
+  public function __construct(ProjectUrl $projectUrl, CheckService $checkService, UserService $userService)
   {
     $this->projectUrl = $projectUrl;
+    $this->checkService = $checkService;
+    $this->userService = $userService;
   }
 
   public function find($id)
@@ -29,7 +35,14 @@ class ProjectUrlRepository
     $projectUrls = $this->projectUrl->where("project_id", "=", $project->id)->get();
 
     return $projectUrls;
+  }
 
+  public function all()
+  {
+
+    $urls = ProjectUrl::get();
+
+    return $urls;
   }
 
   public function store($projectUrlData, $slug)
@@ -52,11 +65,10 @@ class ProjectUrlRepository
 
   public function update($attributes, $id)
   {
- 
+
     $projectUrl = $this->projectUrl->find($id);
-    
-    return $projectUrl->update(['frequency_id' => $attributes["frequency"], "url" =>$attributes["url"]]);
-  
+
+    return $projectUrl->update(['frequency_id' => $attributes["frequency"], "url" => $attributes["url"]]);
   }
 
   public function delete($id)
@@ -64,5 +76,59 @@ class ProjectUrlRepository
   {
 
     return $this->projectUrl->find($id)->delete();
+  }
+
+  public function testUrl($url)
+  {
+
+    if (Carbon::now()->diffInSeconds($url->checked_at) > $url->frequency->seconds) {
+
+      $check = $this->checkService->new();
+
+      $timeBefore = Carbon::now();
+
+      try {
+
+        $response = Http::get($url->url);
+
+        $check->response_status = $response->status();
+      } catch (Exception $e) {
+
+        $check->response_status = 0;
+      }
+
+      $timeAfter = Carbon::now();
+
+      $check->url_id = $url->id;
+
+      $check->response_time = $timeAfter->diffInMilliseconds($timeBefore);
+
+      $url->checked_at = Carbon::now();
+
+      $url->save();
+
+      $check->save();
+
+      if (!in_array($check->response_status, range(200, 299)) && $url->project->up == 1) {
+
+        $url->project->up = 0;
+
+        $url->project->save();
+
+        $this->userService->notifyCreatorProjectDown($url->project->user_id);
+
+        // $url->project->creator->notify(new ProjectDownNotification());
+
+      } else if ($url->project->up != 1 && in_array($check->response_status, range(200, 299))) {
+
+        $url->project->up = 1;
+
+        $url->project->save();
+
+        // $url->project->creator->notify(new ProjectUpNotification());
+
+        $this->userService->notifyCreatorProjectUp($url->project->user_id);
+      }
+    }
   }
 }
