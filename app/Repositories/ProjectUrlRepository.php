@@ -115,7 +115,7 @@ class ProjectUrlRepository
 
         $url->project->save();
 
-        $this->userService->notifyCreatorProjectDown($url->project->user_id);
+        $this->userService->notifyCreatorProjectUp($url->project->user_id);
 
         // $url->project->creator->notify(new ProjectDownNotification());
 
@@ -127,7 +127,7 @@ class ProjectUrlRepository
 
         // $url->project->creator->notify(new ProjectUpNotification());
 
-        $this->userService->notifyCreatorProjectUp($url->project->user_id);
+        $this->userService->notifyCreatorProjectDown($url->project->user_id);
       }
     }
   }

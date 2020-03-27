@@ -11,6 +11,11 @@ class UserService
         $this->user = $user;
     }
 
+    public function notifications($slug)
+    {
+        $this->user->notifications($slug);
+    }
+
     public function notifyCreatorProjectDown($id)
     {
         $this->user->notifyCreatorProjectDown($id);

@@ -12,9 +12,6 @@
 
             @foreach($projectUrls as $projectUrl)
 
-
-            @dd($projectUrl->project->user_id)
-
             <p>{{$projectUrl->url}}</p>
 
             <p>{{$projectUrl->frequency->name}}</p>

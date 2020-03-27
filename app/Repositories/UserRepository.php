@@ -16,6 +16,11 @@ class UserRepository
         $this->user = $user;
     }
 
+    public function notifications($slug)
+    {
+        $user = User::where("slug", "=", $slug)->first();
+    }
+
     public function notifyCreatorProjectDown($id)
     {
 
