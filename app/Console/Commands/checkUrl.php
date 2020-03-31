@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\ProjectService;
 use App\Services\ProjectUrlService;
 
 class CheckUrl extends Command
@@ -13,17 +12,13 @@ class CheckUrl extends Command
 
     protected $description = 'Check Url and save status ';
 
-    protected $projectService;
+    protected $projectUrlService;
 
-    protected $userService;
-
-    public function __construct(ProjectService $projectService, ProjectUrlService $projectUrlService)
+    public function __construct(ProjectUrlService $projectUrlService)
 
     {
 
         parent::__construct();
-
-        $this->projectService = $projectService;
         $this->projectUrlService = $projectUrlService;
     }
 

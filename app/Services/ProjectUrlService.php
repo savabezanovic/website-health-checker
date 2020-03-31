@@ -3,12 +3,16 @@
 namespace App\Services;
 
 use App\Repositories\ProjectUrlRepository;
+use App\Services\CheckService;
+use App\Services\UserService;
 
 class ProjectUrlService
 {
-	public function __construct(ProjectUrlRepository $projectUrl)
+	public function __construct(ProjectUrlRepository $projectUrl, CheckService $checkService, UserService $userService)
 	{
 		$this->projectUrl = $projectUrl;
+		$this->checkService = $checkService;
+		$this->userService = $userService;
 	}
 
 	public function find($id)
@@ -43,6 +47,8 @@ class ProjectUrlService
 
 	public function testUrl($url)
 	{
-		return $this->projectUrl->testUrl($url);
+		$newCheck = $this->checkService->new();
+		$userService = $this->userService;
+		return $this->projectUrl->testUrl($url, $newCheck, $userService);
 	}
 }

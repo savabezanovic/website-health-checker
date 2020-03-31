@@ -6,9 +6,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
-use App\Mail\ProjectDownNotification;
-use App\Mail\ProjectUpNotification;
-use Illuminate\Support\Facades\Mail;
 
 
 class User extends Authenticatable
@@ -34,6 +31,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => ['first_name', 'last_name']
+            ]
+        ];
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -43,18 +49,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
-    }
-
     public function createdProjects()
     {
 
         return $this->hasMany(Project::class);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
 }

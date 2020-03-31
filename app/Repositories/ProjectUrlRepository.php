@@ -6,8 +6,8 @@ use App\ProjectUrl;
 use App\Project;
 use Carbon\Carbon;
 use Exception;
-use App\Services\CheckService;
-use App\Services\UserService;
+
+
 use Illuminate\Support\Facades\Http;
 
 class ProjectUrlRepository
@@ -15,11 +15,10 @@ class ProjectUrlRepository
 
   protected $projectUrl;
 
-  public function __construct(ProjectUrl $projectUrl, CheckService $checkService, UserService $userService)
+  public function __construct(ProjectUrl $projectUrl)
   {
     $this->projectUrl = $projectUrl;
-    $this->checkService = $checkService;
-    $this->userService = $userService;
+ 
   }
 
   public function find($id)
@@ -78,12 +77,14 @@ class ProjectUrlRepository
     return $this->projectUrl->find($id)->delete();
   }
 
-  public function testUrl($url)
+  public function testUrl($url, $newCheck, $userService)
   {
 
     if (Carbon::now()->diffInSeconds($url->checked_at) > $url->frequency->seconds) {
 
-      $check = $this->checkService->new();
+      // $check = $this->checkService->new();
+
+      $check = $newCheck;
 
       $timeBefore = Carbon::now();
 
@@ -115,7 +116,9 @@ class ProjectUrlRepository
 
         $url->project->save();
 
-        $this->userService->notifyCreatorProjectUp($url->project->user_id);
+        // $this->userService->notifyCreatorProjectUp($url->project->user_id);
+
+        $userService->notifyCreatorProjectUp($url->project->user_id);
 
         // $url->project->creator->notify(new ProjectDownNotification());
 
@@ -127,7 +130,8 @@ class ProjectUrlRepository
 
         // $url->project->creator->notify(new ProjectUpNotification());
 
-        $this->userService->notifyCreatorProjectDown($url->project->user_id);
+        $userService->notifyCreatorProjectDown($url->project->user_id);
+        
       }
     }
   }
