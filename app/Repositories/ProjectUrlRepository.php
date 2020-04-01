@@ -18,6 +18,7 @@ class ProjectUrlRepository
   public function __construct(ProjectUrl $projectUrl)
   {
     $this->projectUrl = $projectUrl;
+ 
   }
 
   public function find($id)
@@ -130,6 +131,7 @@ class ProjectUrlRepository
         // $url->project->creator->notify(new ProjectUpNotification());
 
         $userService->notifyCreatorProjectDown($url->project->user_id);
+        
       }
     }
   }

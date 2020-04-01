@@ -5,16 +5,14 @@ namespace App\Services;
 use App\Repositories\ProjectUrlRepository;
 use App\Services\CheckService;
 use App\Services\UserService;
-use App\services\HttpRequestService;
 
 class ProjectUrlService
 {
-	public function __construct(ProjectUrlRepository $projectUrl, CheckService $checkService, UserService $userService, HttpRequestService $httpRequestService)
+	public function __construct(ProjectUrlRepository $projectUrl, CheckService $checkService, UserService $userService)
 	{
 		$this->projectUrl = $projectUrl;
 		$this->checkService = $checkService;
 		$this->userService = $userService;
-		$this->httpRequestService = $httpRequestService;
 	}
 
 	public function find($id)
@@ -51,7 +49,6 @@ class ProjectUrlService
 	{
 		$newCheck = $this->checkService->new();
 		$userService = $this->userService;
-		$httpRequestService = $this->httpRequestService->requestSuccessful($url);
 		return $this->projectUrl->testUrl($url, $newCheck, $userService);
 	}
 }

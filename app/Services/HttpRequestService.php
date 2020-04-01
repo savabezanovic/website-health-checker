@@ -19,7 +19,7 @@ class HttpRequestService
     public function requestSuccessful($httpRequest)
     {
 
-        $httpRequest = $this->httpRequestService->find($httpRequest->id);
+        $httpRequest = $this->httpRequestService->read($httpRequest->id);
 
         if (in_array($httpRequest->response_code, range(200, 299))) {
             return true;
