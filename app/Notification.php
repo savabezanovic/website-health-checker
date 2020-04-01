@@ -11,7 +11,7 @@ class Notification extends Model
 {
 
     protected $fillable = [
-        "type", "notifiable_type", "notifiable_id", "data", "read_at", "created_at", "updated_at"
+        "notification_type", "notification_setting", "notifiable_type", "notifiable_id", "data", "read_at", "created_at", "updated_at"
     ];
 
     public function user()
