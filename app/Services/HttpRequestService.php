@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\HttpRequestRepository;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\Http;
 
 class HttpRequestService
 {
@@ -16,15 +19,33 @@ class HttpRequestService
         return $this->httpRequest->find($id);
     }
 
-    public function requestSuccessful($httpRequest)
+    public function testUrl($newCheck, $url)
     {
+        $timeBefore = Carbon::now();
 
-        $httpRequest = $this->httpRequestService->read($httpRequest->id);
+        try {
 
-        if (in_array($httpRequest->response_code, range(200, 299))) {
-            return true;
-        } else {
-            return false;
+            $response = Http::get($url->url);
+
+            $newCheck->response_status = $response->status();
+        } catch (Exception $e) {
+
+            $newCheck->response_status = 0;
         }
+
+        $timeAfter = Carbon::now();
+
+        $newCheck->url_id = $url->id;
+
+        $newCheck->response_time = $timeAfter->diffInMilliseconds($timeBefore);
+
+        $url->checked_at = Carbon::now();
+
+        $results  = [
+            "testedCheck" => $newCheck,
+            "testedUrl" => $url
+        ];
+
+        return $results;
     }
 }

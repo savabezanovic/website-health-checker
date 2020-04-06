@@ -18,7 +18,6 @@ class ProjectUrlRepository
   public function __construct(ProjectUrl $projectUrl)
   {
     $this->projectUrl = $projectUrl;
- 
   }
 
   public function find($id)
@@ -77,62 +76,90 @@ class ProjectUrlRepository
     return $this->projectUrl->find($id)->delete();
   }
 
-  public function testUrl($url, $newCheck, $userService)
+  public function saveTestedUrl($testedUrl)
   {
 
-    if (Carbon::now()->diffInSeconds($url->checked_at) > $url->frequency->seconds) {
-
-      // $check = $this->checkService->new();
-
-      $check = $newCheck;
-
-      $timeBefore = Carbon::now();
-
-      try {
-
-        $response = Http::get($url->url);
-
-        $check->response_status = $response->status();
-      } catch (Exception $e) {
-
-        $check->response_status = 0;
-      }
-
-      $timeAfter = Carbon::now();
-
-      $check->url_id = $url->id;
-
-      $check->response_time = $timeAfter->diffInMilliseconds($timeBefore);
-
-      $url->checked_at = Carbon::now();
-
-      $url->save();
-
-      $check->save();
-
-      if (!in_array($check->response_status, range(200, 299)) && $url->project->up == 1) {
-
-        $url->project->up = 0;
-
-        $url->project->save();
-
-        // $this->userService->notifyCreatorProjectUp($url->project->user_id);
-
-        $userService->notifyCreatorProjectUp($url->project->user_id);
-
-        // $url->project->creator->notify(new ProjectDownNotification());
-
-      } else if ($url->project->up != 1 && in_array($check->response_status, range(200, 299))) {
-
-        $url->project->up = 1;
-
-        $url->project->save();
-
-        // $url->project->creator->notify(new ProjectUpNotification());
-
-        $userService->notifyCreatorProjectDown($url->project->user_id);
-        
-      }
-    }
+    $testedUrl->save();
   }
+
+  public function saveTestedCheck($testedCheck)
+  {
+
+    $testedCheck->save();
+  }
+
+  public function saveUrlDown($testedUrl)
+  {
+    $testedUrl->project->up = 0;
+
+    $testedUrl->project->save();
+  }
+
+  public function saveUrlUp($testedUrl)
+  {
+    $testedUrl->project->up = 1;
+
+    $testedUrl->project->save();
+  }
+
+  // public function testUrl($testedCheck, $testedUrl)
+  // {
+
+    // if (Carbon::now()->diffInSeconds($url->checked_at) > $url->frequency->seconds) {
+
+    // $check = $this->checkService->new();
+
+    // $check = $newCheck;
+
+    // $timeBefore = Carbon::now();
+
+    // try {
+
+    //   $response = Http::get($url->url);
+
+    //   $check->response_status = $response->status();
+    // } catch (Exception $e) {
+
+    //   $check->response_status = 0;
+    // }
+
+    // $timeAfter = Carbon::now();
+
+    // $check->url_id = $url->id;
+
+    // $check->response_time = $timeAfter->diffInMilliseconds($timeBefore);
+
+    // $url->checked_at = Carbon::now();
+
+
+    // $testedUrl->save();
+
+    // $testedCheck->save();
+
+
+    // if (!in_array($check->response_status, range(200, 299)) && $url->project->up == 1) {
+
+    // $testedUrl->project->up = 0;
+
+    // $testedUrl->project->save();
+
+    // $this->userService->notifyCreatorProjectUp($url->project->user_id);
+
+    // $userService->notifyCreatorProjectUp($url->project->user_id);
+
+    // $url->project->creator->notify(new ProjectDownNotification());
+
+    // } else if ($url->project->up != 1 && in_array($check->response_status, range(200, 299))) {
+
+    // $testedUrl->project->up = 1;
+
+    // $testedUrl->project->save();
+
+    // $url->project->creator->notify(new ProjectUpNotification());
+
+    // $userService->notifyCreatorProjectDown($url->project->user_id);
+
+    // }
+    // }
+  // }
 }
