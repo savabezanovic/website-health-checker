@@ -41,12 +41,4 @@ Route::get("/project/{slug}/edit/url/{id}", "ProjectUrlController@edit");
 Route::put("/project/update/url/{id}", "ProjectUrlController@update");
 Route::delete("/project/delete/url/{id}", "ProjectUrlController@delete");
 
-Route::get("/user/{slug}/notifications", "UserController@notifications");
-
-Route::get('/send-mail', function () {
-
-    Mail::to('newuser@example.com')->send(new MailtrapExample()); 
-
-    return 'A message has been sent to Mailtrap!';
-
-});
+Route::get("/user/{slug}/settings", "UserController@settings");

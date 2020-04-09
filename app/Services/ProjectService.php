@@ -12,6 +12,10 @@ class ProjectService
 		$this->project = $project;
 	}
 
+	public function findProjectById($id) {
+		return $this->project->findProjectById($id);
+	}
+
 	public function showProjects()
 	{
 		return $this->project->showProjects();

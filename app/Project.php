@@ -35,4 +35,8 @@ class Project extends Model
 
     }
 
+    public function notificationSettings() {
+        return $this->hasMany(NotificationSetting::class);
+    }
+
 }

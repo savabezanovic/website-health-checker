@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-
 class User extends Authenticatable
 {
     use Notifiable;
@@ -19,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', "slug"
     ];
 
     /**
@@ -35,7 +34,7 @@ class User extends Authenticatable
     {
         return [
             'slug' => [
-                'source' => ['first_name', 'last_name']
+                'source' => ['name']
             ]
         ];
     }
@@ -58,6 +57,10 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    public function notificationSettings() {
+        return $this->hasMany(NotificationSetting::class);
     }
 
 }

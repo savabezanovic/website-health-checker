@@ -99,13 +99,14 @@ class ProjectUrlService
 
 				$this->projectUrl->saveUrlDown($testedCheck);
 
-				$this->userService->notifyCreatorProjectUp($testedUrl->project->user_id);
-			} else if ($testedUrl->project->up != 1 && in_array($testedCheck->response_status, range(200, 299))) {
+				$this->userService->notifyCreatorProjectUp($testedUrl->project->user_id, $testedUrl->project->id);
 
+			} else if ($testedUrl->project->up != 1 && in_array($testedCheck->response_status, range(200, 299))) {
 
 				$this->projectUrl->saveUrlUp($testedCheck);
 
-				$this->userService->notifyCreatorProjectDown($testedUrl->project->user_id);
+				$this->userService->notifyCreatorProjectDown($testedUrl->project->user_id, $testedUrl->project->id);
+
 			}
 		}
 	}

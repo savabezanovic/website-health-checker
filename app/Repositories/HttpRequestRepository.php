@@ -5,7 +5,7 @@ namespace App\Repositories;
 class HttpRequestRepository
 {
 
-  protected $check;
+  protected $httpRequest;
 
   public function __construct(HttpRequestRepository $httpRequest)
   {

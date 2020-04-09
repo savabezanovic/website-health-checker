@@ -4,7 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1>User notification settings</h1>
+            <h1>User Settings</h1>
+            <p>Notification Preferences:</p>
         </div>
     </div>
 </div>

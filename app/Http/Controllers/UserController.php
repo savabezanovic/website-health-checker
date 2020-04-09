@@ -13,9 +13,9 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function notifications($slug)
+    public function settings($slug)
     {
-        $notifications = $this->userService->notifications();
-        return view('user.notifications')->with("notifications", $notifications);
+        $settings = $this->userService->settings($slug);
+        return view('user.settings')->with("settings", $settings);
     }
 }

@@ -13,6 +13,11 @@ class ProjectRepository
   {
     $this->project = $project;
   }
+
+  public function findProjectById($id) {
+    return $project = $this->project->find($id); 
+  }
+
   public function store($projectData)
   {
 
