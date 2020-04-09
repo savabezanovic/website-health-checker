@@ -26,6 +26,16 @@ class ProjectService
 		return $this->project->showProject($slug);
 	}
 
+	public function showNotifications($slug)
+	{
+		return $this->project->showNotifications($slug);
+	}
+
+	public function notificationSetting($notificationSettingId)
+	{
+		return $this->project->notificationSetting($notificationSettingId);
+	}
+
 	public function store($projectData)
 	{
 

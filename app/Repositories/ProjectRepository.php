@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Project;
+use App\NotificationSetting;
 
 class ProjectRepository
 {
@@ -36,6 +37,34 @@ class ProjectRepository
   public function showProject($slug)
   {
     return $this->project->where('slug', '=', $slug)->first();
+  }
+
+  public function showNotifications($slug)
+  {
+    $project = $this->project->where("slug", "=", $slug)->first();
+
+    $notifications = NotificationSetting::where("project_id", "=", $project->id)
+    ->where("user_id", "=", auth()->user()->id)
+    ->get();
+
+    $data = [
+      "project" => $project,
+      "notifications" => $notifications,
+      "slug" => $slug
+    ];
+
+    return $data;
+  }
+
+  public function notificationSetting($notificationSettingId)
+  {
+    $notificationSetting = NotificationSetting::find($notificationSettingId);
+    if($notificationSetting->setting === 0) {
+      $notificationSetting->setting = 1;
+    } else {
+      $notificationSetting->setting = 0;
+    }
+    $notificationSetting->save();
   }
 
   public function find($slug)

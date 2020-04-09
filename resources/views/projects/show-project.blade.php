@@ -22,6 +22,9 @@
                 <input type="submit" value="Delete Project">
 
             </form>
+
+            <a href="/project/{{$project->slug}}/notifications">Project Notification Settings</a>
+
         </div>
     </div>
 </div>

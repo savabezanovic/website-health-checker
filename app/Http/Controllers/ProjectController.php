@@ -80,4 +80,21 @@ class ProjectController extends Controller
 
     return redirect("/projects");
   }
+
+  public function showNotifications($slug) {
+
+    $data = $this->projectService->showNotifications($slug);
+
+    return view("projects.show-notifications")
+    ->with("notifications", $data["notifications"])
+    ->with("slug", $data["slug"])
+    ->with("project", $data["project"]);
+  }
+
+  public function notificationSetting($notificationSettingId)
+  {
+    $this->projectService->notificationSetting($notificationSettingId);
+    return back();
+  }
+
 }

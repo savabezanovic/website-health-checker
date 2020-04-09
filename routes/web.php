@@ -42,3 +42,5 @@ Route::put("/project/update/url/{id}", "ProjectUrlController@update");
 Route::delete("/project/delete/url/{id}", "ProjectUrlController@delete");
 
 Route::get("/user/{slug}/settings", "UserController@settings");
+Route::get("/project/{slug}/notifications", "ProjectController@showNotifications");
+Route::put("/notificationSetting/{id}", "ProjectController@notificationSetting");
