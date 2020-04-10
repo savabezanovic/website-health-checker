@@ -5,20 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProjectRequest;
 use App\Services\ProjectService;
-use App\Services\FrequencyService;
+use App\Services\NotificationTypeService;
+use App\Services\NotificationSettingService;
+
 
 class ProjectController extends Controller
 {
 
   protected $projectService;
-  
+  protected $notificationTypeService;
+  protected $notificationSettingService;
 
-  public function __construct(ProjectService $projectService)
+
+  public function __construct(ProjectService $projectService, 
+  NotificationTypeService $notificationTypeService, 
+  NotificationSettingService $notificationSettingService)
 
   {
 
     $this->projectService = $projectService;
-    
+    $this->notificationTypeService = $notificationTypeService;
+    $this->notificationSettingService = $notificationSettingService;
   }
 
   public function showProjects()
@@ -49,15 +56,17 @@ class ProjectController extends Controller
 
     $projectData = $request->all();
 
-    $this->projectService->store($projectData);
+    $project = $this->projectService->store($projectData);
+
+    $notificationTypes = $this->notificationTypeService->getAllNotificationTypes();
+
+    $this->notificationSettingService->create($project->id, $notificationTypes);
 
     return redirect('/projects');
   }
 
   public function edit($slug)
   {
-
-  
 
     $project = $this->projectService->edit($slug);
 
@@ -81,14 +90,15 @@ class ProjectController extends Controller
     return redirect("/projects");
   }
 
-  public function showNotifications($slug) {
+  public function showNotifications($slug)
+  {
 
     $data = $this->projectService->showNotifications($slug);
 
     return view("projects.show-notifications")
-    ->with("notifications", $data["notifications"])
-    ->with("slug", $data["slug"])
-    ->with("project", $data["project"]);
+      ->with("notifications", $data["notifications"])
+      ->with("slug", $data["slug"])
+      ->with("project", $data["project"]);
   }
 
   public function notificationSetting($notificationSettingId)
@@ -96,5 +106,4 @@ class ProjectController extends Controller
     $this->projectService->notificationSetting($notificationSettingId);
     return back();
   }
-
 }

@@ -3,33 +3,42 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
-use App\Services\ProjectService;
 
 class UserService
 {
-    public function __construct(UserRepository $user, ProjectService $project)
+    public function __construct(UserRepository $user)
     {
         $this->user = $user;
-        $this->project = $project;
     }
 
     public function new()
     {
-        $this->user->new();
+        return $this->user->new();
     }
 
-    public function settings($slug)
+    public function notificationTypes()
     {
-        $this->user->settings($slug);
+        return $this->user->notificationTypes();
     }
 
     public function notifyCreatorProjectDown($user_id, $project_id)
     {
-        $this->user->notifyCreatorProjectDown($user_id, $project_id);
+        return $this->user->notifyCreatorProjectDown($user_id, $project_id);
     }
 
     public function notifyCreatorProjectUp($user_id, $project_id)
     {
-        $this->user->notifyCreatorProjectUp($user_id, $project_id);
+        return $this->user->notifyCreatorProjectUp($user_id, $project_id);
     }
+
+    public function notificationON($id)
+    {
+        return $this->user->notificationON($id);
+    }
+
+    public function notificationOFF($id)
+    {
+        return $this->user->notificationOFF($id);
+    }
+
 }

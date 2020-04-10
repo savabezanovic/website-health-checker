@@ -27,6 +27,9 @@ class ProjectRepository
     $project->user_id = auth()->user()->id;
 
     $project->save();
+
+    return $project;
+
   }
 
   public function showProjects()

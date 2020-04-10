@@ -57,7 +57,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/{{auth()->user()->slug}}/settings">Settings</a>
+                            <a class="nav-link" href="/user/settings">Settings</a>
                         </li>
 
                         <li class="nav-item dropdown">
