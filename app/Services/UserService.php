@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\User;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\SendInvitation;
 
 class UserService
 {
@@ -41,4 +44,37 @@ class UserService
         return $this->user->notificationOFF($id);
     }
 
+    public function sendInvitation($email, $project_id)
+    {
+
+        $link = "smece radi";
+
+        $user = User::where("email", "=", $email)->first();
+
+        $isMember = false;
+
+        foreach ($user->member as $project)  {
+           
+            if ($project->id != $project_id) {
+                
+                $isMember = false;
+              
+            } else if($project->id == $project_id){
+
+                return $isMember = true;
+            }
+        }
+
+        if($isMember == false) {
+
+            Notification::route('mail', $email)->notify(new SendInvitation($link));
+
+            echo "Poslao sam";
+
+        } else {
+
+            echo "Nisam poslao";
+
+        }
+    }
 }

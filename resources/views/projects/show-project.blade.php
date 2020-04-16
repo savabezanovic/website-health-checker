@@ -13,6 +13,20 @@
 
             <a href="/project/{{$project->slug}}/urls">Show URLs</a>
 
+            <form action="{{action('UserController@sendInvitation', $project->id)}}" method="POST">
+       
+                @method("POST")
+
+                @csrf
+
+                <p>Invite To Project</p>
+
+                <input name ="email" type="email">
+
+                <input type="submit" value="Invite">
+
+            </form>
+
             <form action="{{action('ProjectController@delete', $project->slug)}}" method="POST">
 
                 @method("DELETE")

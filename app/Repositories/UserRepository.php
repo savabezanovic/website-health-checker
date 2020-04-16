@@ -34,13 +34,12 @@ class UserRepository
         $user = User::find($user_id);
         $notificationType = NotificationType::where("type", "=", "Project Down");
         $notificationSetting = NotificationSetting::where("user_id", "=", $user_id)
-        ->where("project_id", "=", $project_id)->where("notification_type", "=", $notificationType->id)
-        ->first();
+            ->where("project_id", "=", $project_id)->where("notification_type", "=", $notificationType->id)
+            ->first();
 
-        if($notificationSetting->setting === true) {
+        if ($notificationSetting->setting === true) {
             $user->notify(new ProjectDownNotification());
         }
-        
     }
 
     public function notifyCreatorProjectUp($user_id, $project_id)
@@ -48,41 +47,36 @@ class UserRepository
         $user = User::find($user_id);
         $notificationType = NotificationType::where("type", "=", "Project Up");
         $notificationSetting = NotificationSetting::where("user_id", "=", $user_id)
-        ->where("project_id", "=", $project_id)->where("notification_type", "=", $notificationType->id)
-        ->first();
+            ->where("project_id", "=", $project_id)->where("notification_type", "=", $notificationType->id)
+            ->first();
 
-        if($notificationSetting->setting === true) {
+        if ($notificationSetting->setting === true) {
             $user->notify(new ProjectUpNotification());
         }
-        
     }
 
     public function notificationON($id)
     {
         $notificationSettings = NotificationSetting::where("notification_type_id", "=", $id)
-        ->where("user_id", "=", auth()->user()->id)
-        ->get();
+            ->where("user_id", "=", auth()->user()->id)
+            ->get();
 
-        foreach($notificationSettings as $notificationSetting)
-        {
+        foreach ($notificationSettings as $notificationSetting) {
             $notificationSetting->setting = 0;
             $notificationSetting->save();
         }
-
     }
 
     public function notificationOFF($id)
     {
         $notificationSettings = NotificationSetting::where("notification_type_id", "=", $id)
-        ->where("user_id", "=", auth()->user()->id)
-        ->get();
+            ->where("user_id", "=", auth()->user()->id)
+            ->get();
 
-        foreach($notificationSettings as $notificationSetting)
-        {
+        foreach ($notificationSettings as $notificationSetting) {
             $notificationSetting->setting = 1;
             $notificationSetting->save();
         }
-
     }
 
 }

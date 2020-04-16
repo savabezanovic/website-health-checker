@@ -49,3 +49,5 @@ Route::put("/notificationSetting/{id}", "ProjectController@notificationSetting")
 
 Route::put("/user/{id}/settingON", "UserController@notificationON");
 Route::put("/user/{id}/settingOFF", "UserController@notificationOFF");
+
+Route::post("/invite/{id}", "UserController@sendInvitation");

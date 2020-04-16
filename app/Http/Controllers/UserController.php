@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Services\UserService;
+use Illuminate\Http\Request;
+use App\Services\InvitationService;
 
 class UserController extends Controller
 {
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, InvitationService $invitationService)
     {
         $this->middleware('auth');
         $this->userService = $userService;
+        $this->invitationService = $invitationService;
     }
 
     public function settings()
@@ -34,4 +37,10 @@ class UserController extends Controller
         return back();
     }
 
+    public function sendInvitation(Request $request, Int $project_id)
+    {
+       
+        $this->userService->sendInvitation($request["email"], $project_id);
+        $this->invitationService->create($project_id, $request["email"]);
+    }
 }
