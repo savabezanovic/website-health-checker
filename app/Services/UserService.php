@@ -44,25 +44,32 @@ class UserService
         return $this->user->notificationOFF($id);
     }
 
-    public function sendInvitation($email, $project_id)
+    public function sendInvitation($email, Int $project_id, $token)
     {
-
-        $link = "smece radi";
-
-        $user = User::where("email", "=", $email)->first();
 
         $isMember = false;
 
-        foreach ($user->member as $project)  {
-           
-            if ($project->id != $project_id) {
-                
-                $isMember = false;
-              
-            } else if($project->id == $project_id){
+        $link = "http://website-health-checker.test/join-team/" . $token;
 
-                return $isMember = true;
+        $user = User::where("email", "=", $email)->first();
+
+        if($user) {
+
+            foreach ($user->member as $project)  {
+            
+                if ($project->id != $project_id) {
+                    
+    
+                    $isMember = false;
+                  
+                } else if($project->id == $project_id){
+                    
+                    $isMember = true;
+                break;
+                }
             }
+        } else {
+            $isMember = false;
         }
 
         if($isMember == false) {

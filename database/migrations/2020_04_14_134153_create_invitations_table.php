@@ -17,6 +17,7 @@ class CreateInvitationsTable extends Migration
             $table->id();
             $table->bigInteger("project_id")->unsigned();
             $table->string("email");
+            $table->string("token");
             $table->timestamps();
         });
     }

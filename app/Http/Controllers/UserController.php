@@ -37,10 +37,15 @@ class UserController extends Controller
         return back();
     }
 
-    public function sendInvitation(Request $request, Int $project_id)
+    public function sendInvitation(Request $request, $project_id)
     {
-       
-        $this->userService->sendInvitation($request["email"], $project_id);
-        $this->invitationService->create($project_id, $request["email"]);
+        
+        $token = $this->invitationService->create($project_id, $request["email"]);
+        $this->userService->sendInvitation($request["email"], $project_id, $token);
     }
+
+    public function joinTeam($token) {
+        dd($token);
+    }
+
 }
