@@ -45,7 +45,12 @@ class UserController extends Controller
     }
 
     public function joinTeam($token) {
-        dd($token);
+        
+        $projectId = $this->invitationService->getProjectId($token);
+        $this->userService->addToTeam($projectId);
+        $this->invitationService->removeFromInvitations($token);
+        return redirect("/projects");
+
     }
 
 }

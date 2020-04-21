@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 use App\User;
+use App\Project;
 use App\NotificationSetting;
 use App\NotificationType;
 use App\Notifications\ProjectDownNotification;
 use App\Notifications\ProjectUpNotification;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserRepository
 {
@@ -28,13 +30,63 @@ class UserRepository
         return $notificationTypes;
     }
 
-    public function notifyCreatorProjectDown($user_id, $project_id)
+    public function notifyTeamProjectDown($user_id, $projectId)
     {
 
+        $project = Project::find($projectId);
+
+        $teamMembers = $project->members;
+
+        $teamMembers[] = $project->creator;
+
+        $notificationType = NotificationType::where("type", "=", "Project Down")->first();
+
+        foreach ($teamMembers as $user) {
+            $notificationSetting = NotificationSetting::where("user_id", "=", $user->id)
+                ->where("project_id", "=", $projectId)->where("notification_type_id", "=", $notificationType->id)
+                ->first();
+
+            if ($notificationSetting->setting == true) {
+                $user->notify(new ProjectDownNotification());
+            }
+        }
+    }
+
+    public function notifyTeamProjectUp($user_id, $projectId)
+    {
+
+        $project = Project::find($projectId);
+
+        $teamMembers = $project->members;
+
+        $teamMembers[] = $project->creator;
+
+        $notificationType = NotificationType::where("type", "=", "Project Up")->first();
+        
+        foreach ($teamMembers as $user) {
+            $notificationSetting = NotificationSetting::where("user_id", "=", $user->id)
+                ->where("project_id", "=", $projectId)->where("notification_type_id", "=", $notificationType->id)
+                ->first();
+
+            echo $user->name . "<br>";
+            if ($notificationSetting->setting == true) {
+               
+                $user->notify(new ProjectDownNotification());
+                echo "Poslao je mail <br>";
+            } else {
+                
+                echo "Nije poslao mail <br>";
+            }
+        }
+    }
+
+    public function notifyCreatorProjectDown($user_id, $project_id)
+    {
+        
         $user = User::find($user_id);
-        $notificationType = NotificationType::where("type", "=", "Project Down");
+        $notificationType = NotificationType::where("type", "=", "Project Down")->first();
         $notificationSetting = NotificationSetting::where("user_id", "=", $user_id)
-            ->where("project_id", "=", $project_id)->where("notification_type", "=", $notificationType->id)
+            ->where("project_id", "=", $project_id)->where("notification_type_id", "=", $notificationType->id)
             ->first();
 
         if ($notificationSetting->setting === true) {
@@ -45,9 +97,9 @@ class UserRepository
     public function notifyCreatorProjectUp($user_id, $project_id)
     {
         $user = User::find($user_id);
-        $notificationType = NotificationType::where("type", "=", "Project Up");
+        $notificationType = NotificationType::where("type", "=", "Project Up")->first();
         $notificationSetting = NotificationSetting::where("user_id", "=", $user_id)
-            ->where("project_id", "=", $project_id)->where("notification_type", "=", $notificationType->id)
+            ->where("project_id", "=", $project_id)->where("notification_type_id", "=", $notificationType->id)
             ->first();
 
         if ($notificationSetting->setting === true) {
@@ -79,4 +131,11 @@ class UserRepository
         }
     }
 
+    public function addToTeam($projectId)
+    {
+
+        $user = User::find(auth()->user()->id);
+
+        $user->member()->attach($projectId);
+    }
 }

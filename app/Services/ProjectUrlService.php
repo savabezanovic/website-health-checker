@@ -6,7 +6,6 @@ use App\Repositories\ProjectUrlRepository;
 use App\Services\CheckService;
 use App\Services\UserService;
 use Carbon\Carbon;
-// use App\Services\HttpRequestService;
 use Exception;
 use Illuminate\Support\Facades\Http;
 
@@ -16,12 +15,12 @@ class ProjectUrlService
 		ProjectUrlRepository $projectUrl,
 		CheckService $checkService,
 		UserService $userService
-		// HttpRequestService $httpRequestService
+		
 	) {
 		$this->projectUrl = $projectUrl;
 		$this->checkService = $checkService;
 		$this->userService = $userService;
-		// $this->httpRequestService = $httpRequestService;
+
 	}
 
 	public function find($id)
@@ -57,7 +56,7 @@ class ProjectUrlService
 	public function testUrl($url)
 	{
 		$newCheck = $this->checkService->new();
-
+		
 		if (Carbon::now()->diffInSeconds($url->checked_at) > $url->frequency->seconds) {
 
 			// $results = $this->httpRequestService->testUrl($newCheck, $url);
@@ -97,16 +96,16 @@ class ProjectUrlService
 
 			if (!in_array($testedCheck->response_status, range(200, 299)) && $testedUrl->project->up == 1) {
 
-				$this->projectUrl->saveUrlDown($testedCheck);
+				$this->projectUrl->saveUrlDown($testedUrl);
 
-				$this->userService->notifyCreatorProjectUp($testedUrl->project->user_id, $testedUrl->project->id);
+				$this->userService->notifyTeamProjectDown($testedUrl->project->user_id, $testedUrl->project->id);
 
 			} else if ($testedUrl->project->up != 1 && in_array($testedCheck->response_status, range(200, 299))) {
 
-				$this->projectUrl->saveUrlUp($testedCheck);
+				$this->projectUrl->saveUrlUp($testedUrl);
 
-				$this->userService->notifyCreatorProjectDown($testedUrl->project->user_id, $testedUrl->project->id);
-
+				$this->userService->notifyTeamProjectUp($testedUrl->project->user_id, $testedUrl->project->id);
+				
 			}
 		}
 	}

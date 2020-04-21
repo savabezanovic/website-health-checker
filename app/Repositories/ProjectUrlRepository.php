@@ -90,6 +90,7 @@ class ProjectUrlRepository
 
   public function saveUrlDown($testedUrl)
   {
+
     $testedUrl->project->up = 0;
 
     $testedUrl->project->save();

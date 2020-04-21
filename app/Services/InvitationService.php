@@ -17,4 +17,12 @@ class InvitationService
         return $this->invitationRepository->create($project_id, $email);
     }
 
+    public function getProjectId($token) {
+        return $this->invitationRepository->getProjectId($token);
+    }
+
+    public function removeFromInvitations($token) {
+        $this->invitationRepository->removeFromInvitations($token);
+    }
+
 }

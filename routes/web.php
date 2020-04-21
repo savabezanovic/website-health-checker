@@ -53,3 +53,5 @@ Route::put("/user/{id}/settingOFF", "UserController@notificationOFF");
 Route::post("/invite/{id}", "UserController@sendInvitation");
 
 Route::get("/join-team/{token}", "UserController@joinTeam");
+
+Route::get("/test", "TestController@test");

@@ -34,6 +34,16 @@ class UserService
         return $this->user->notifyCreatorProjectUp($user_id, $project_id);
     }
 
+      public function notifyTeamProjectDown($user_id, $project_id)
+    {
+        return $this->user->notifyTeamProjectDown($user_id, $project_id);
+    }
+
+    public function notifyTeamProjectUp($user_id, $project_id)
+    {
+        return $this->user->notifyTeamProjectUp($user_id, $project_id);
+    }
+
     public function notificationON($id)
     {
         return $this->user->notificationON($id);
@@ -84,4 +94,9 @@ class UserService
 
         }
     }
+
+    public function addToTeam($projectId) {
+        $this->user->addToTeam($projectId);
+    }
+
 }

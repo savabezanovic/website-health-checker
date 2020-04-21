@@ -25,4 +25,16 @@ class InvitationRepository
 
             return $invitation->token;
     }
+
+    public function getProjectId($token) {
+        $invitation = Invitation::where("token", "=", $token)->first();
+        $projectId = $invitation->project_id;
+        return $projectId;
+    }
+
+    public function removeFromInvitations($token) {
+        $invitation = Invitation::where("token", "=", $token)->first();
+        $invitation->delete();
+    }
+
 }
