@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Services\ProjectUrlService;
-
+use App\Services\ProjectService;
 use App\Repositories\ProjectUrlRepository;
 use App\Services\CheckService;
 use App\Services\UserService;
 use Carbon\Carbon;
-// use App\Services\HttpRequestService;
 use Exception;
 use Illuminate\Support\Facades\Http;
 
@@ -21,82 +20,98 @@ class TestController extends Controller
         ProjectUrlRepository $projectUrl,
         CheckService $checkService,
         UserService $userService,
-        ProjectUrlService $projectUrlService
+        ProjectUrlService $projectUrlService,
+        ProjectService $projectService
     ) {
         $this->projectUrl = $projectUrl;
         $this->checkService = $checkService;
         $this->userService = $userService;
         $this->projectUrlService = $projectUrlService;
+        $this->projectService = $projectService;
     }
 
 
 
     public function test()
     {
+        $projects = $this->projectService->showProjects();
 
-        $urls = $this->projectUrlService->all();
+        foreach ($projects as $project) {
 
-        foreach ($urls as $url) {
+            $projectUp = $project->up;
 
-            $newCheck = $this->checkService->new();
+            $newProjectUp = [];
 
-            if (Carbon::now()->diffInSeconds($url->checked_at) > $url->frequency->seconds) {
+            foreach ($project->projectUrls as $url) {
 
-                echo "Usao je u glavni if <br>";
+                $newCheck = $this->checkService->new();
 
-                $timeBefore = Carbon::now();
-
-                try {
-
-                    $response = Http::get($url->url);
-
-                    $newCheck->response_status = $response->status();
-                } catch (Exception $e) {
-
-                    $newCheck->response_status = 0;
-                }
-
-                $timeAfter = Carbon::now();
-
-                $newCheck->url_id = $url->id;
-
-                $newCheck->response_time = $timeAfter->diffInMilliseconds($timeBefore);
-
-                $url->checked_at = Carbon::now();
-
-                $results  = [
-                    "testedCheck" => $newCheck,
-                    "testedUrl" => $url
-                ];
-
-                $testedCheck = $results["testedCheck"];
-
-                $testedUrl = $results["testedUrl"];
-
-                echo "SVE RADI DO OVDE <br>";
-
-                $this->projectUrl->saveTestedUrl($testedUrl);
-
-                $this->projectUrl->saveTestedCheck($testedCheck);
-
-                if (!in_array($testedCheck->response_status, range(200, 299)) && $testedUrl->project->up == 1) {
-
-                    $this->projectUrl->saveUrlDown($testedUrl);
-
-                    $this->userService->notifyTeamProjectDown($testedUrl->project->user_id, $testedUrl->project->id);
-
-                    echo "Radi if <br>";
+                if (Carbon::now()->diffInSeconds($url->checked_at) > $url->frequency->seconds) {
                     
-                } else if ($testedUrl->project->up != 1 && in_array($testedCheck->response_status, range(200, 299))) {
+                    $timeBefore = Carbon::now();
 
-                    $this->projectUrl->saveUrlUp($testedUrl);
+                    try {
 
-                    $this->userService->notifyTeamProjectUp($testedUrl->project->user_id, $testedUrl->project->id);
+                        $response = Http::get($url->url);
 
-                    echo "Radi else if <br>";
+                        $newCheck->response_status = $response->status();
+                    } catch (Exception $e) {
+
+                        $newCheck->response_status = 0;
+                    }
+
+                    $timeAfter = Carbon::now();
+
+                    $newCheck->url_id = $url->id;
+
+                    $newCheck->response_time = $timeAfter->diffInMilliseconds($timeBefore);
+
+                    $url->checked_at = Carbon::now();
+
+                    $results  = [
+                        "testedCheck" => $newCheck,
+                        "testedUrl" => $url
+                    ];
+
+                    $testedCheck = $results["testedCheck"];
+
+                    $testedUrl = $results["testedUrl"];
+
+                    $this->projectUrl->saveTestedUrl($testedUrl);
+
+                    $this->projectUrl->saveTestedCheck($testedCheck);
+
+                    if (!in_array($testedCheck->response_status, range(200, 299))) {
+
+                        $newProjectUp[] += 0; 
+                        
+                    } else if (in_array($testedCheck->response_status, range(200, 299))) {
+                       
+                        $newProjectUp[] += 1;
+
+                    }
                 }
-            } else {
-                echo "Nije usao u if <br>";
+            }
+
+            var_dump($projectUp);
+            echo "<br>";
+            var_dump($newProjectUp);
+
+            if ($projectUp == 0 && in_array(0, $newProjectUp) == false) {
+
+                echo "Project UP";
+
+                $this->userService->notifyTeamProjectUp($testedUrl->project->user_id, $testedUrl->project->id);
+
+                $this->projectUrl->saveUrlUp($testedUrl);
+
+            } else if ($projectUp == 1 && in_array(0, $newProjectUp) == true) {
+
+                echo "Project DOWN";
+
+                $this->userService->notifyTeamProjectDown($testedUrl->project->user_id, $testedUrl->project->id);
+
+                $this->projectUrl->saveUrlDown($testedUrl);
             }
         }
     }

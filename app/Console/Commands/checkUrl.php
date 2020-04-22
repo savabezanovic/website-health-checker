@@ -25,12 +25,6 @@ class CheckUrl extends Command
     public function handle()
 
     {
-
-        $urls = $this->projectUrlService->all();
-
-        foreach ($urls as $url) {
-
-            $this->projectUrlService->testUrl($url);
-        }
+        $this->projectUrlService->testUrl();
     }
 }

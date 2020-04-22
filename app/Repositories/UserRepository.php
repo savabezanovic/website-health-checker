@@ -35,9 +35,15 @@ class UserRepository
 
         $project = Project::find($projectId);
 
-        $teamMembers = $project->members;
+        $members = $project->members;
 
-        $teamMembers[] = $project->creator;
+        $teamMembers = [];
+
+        foreach($members as $member) {
+            $teamMembers[] += $member;
+        }
+
+        $teamMembers[] += $project->creator;
 
         $notificationType = NotificationType::where("type", "=", "Project Down")->first();
 
@@ -57,9 +63,15 @@ class UserRepository
 
         $project = Project::find($projectId);
 
-        $teamMembers = $project->members;
+        $members = $project->members;
 
-        $teamMembers[] = $project->creator;
+        $teamMembers = [];
+
+        foreach($members as $member) {
+            $teamMembers[] += $member;
+        }
+
+        $teamMembers[] += $project->creator;
 
         $notificationType = NotificationType::where("type", "=", "Project Up")->first();
         
