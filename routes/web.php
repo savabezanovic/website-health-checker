@@ -55,3 +55,6 @@ Route::post("/invite/{id}", "UserController@sendInvitation");
 Route::get("/join-team/{token}", "UserController@joinTeam");
 
 Route::get("/test", "TestController@test");
+
+Route::get("/project/make-public-link/{slug}", "ProjectController@makePublicLink");
+Route::get("/project/public/{hash}", "ProjectController@showPublicProject");

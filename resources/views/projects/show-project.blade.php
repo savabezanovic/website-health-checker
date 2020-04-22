@@ -14,14 +14,14 @@
             <a href="/project/{{$project->slug}}/urls">Show URLs</a>
 
             <form action="{{action('UserController@sendInvitation', $project->id)}}" method="POST">
-       
+
                 @method("POST")
 
                 @csrf
 
                 <p>Invite To Project</p>
 
-                <input name ="email" type="email">
+                <input name="email" type="email">
 
                 <input type="submit" value="Invite">
 
@@ -38,6 +38,26 @@
             </form>
 
             <a href="/project/{{$project->slug}}/notifications">Project Notification Settings</a>
+
+            @if(!isset($link))
+
+            <form action="{{action('ProjectController@makePublicLink', $project->slug)}}" method="GET">
+
+                @method("GET")
+
+                @csrf
+
+                <input type="submit" value="Make Public Link">
+
+            </form>
+
+            @else
+
+                <p>{{$link}}</p>
+
+                <p>Copy Public Link</p>
+
+            @endif
 
         </div>
     </div>

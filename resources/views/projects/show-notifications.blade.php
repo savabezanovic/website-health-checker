@@ -19,8 +19,8 @@
 
                 <input type="submit" 
                 value="Notification Setting: {{$notification->notificationType->type}} 
-                @if($notification->setting === 0) ON 
-                @else OFF @endif">
+                @if($notification->setting === 0) OFF 
+                @else ON @endif">
 
             </form>
 

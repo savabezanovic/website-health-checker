@@ -106,4 +106,26 @@ class ProjectController extends Controller
     $this->projectService->notificationSetting($notificationSettingId);
     return back();
   }
+
+  public function makePublicLink($slug) 
+  {
+
+    $link = $this->projectService->makePublicLink($slug);
+
+    $project = $this->projectService->showProject($slug);
+
+    return view("projects.show-project")->with("link", $link)->with("project", $project);
+  }
+
+  public function showPublicProject($hash)
+  {
+
+    $slug = $this->projectService->showPublicProject($hash);
+
+    $project = $this->projectService->showProject($slug);
+
+    return view("projects.show-project")->with("project", $project);
+
+  }
+
 }

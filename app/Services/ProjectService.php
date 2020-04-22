@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\Repositories\ProjectRepository;
+use Illuminate\Support\Facades\Crypt;
 
 class ProjectService
 {
@@ -56,6 +57,18 @@ class ProjectService
 	public function delete($slug)
 	{
 		return $this->project->delete($slug);
+	}
+
+	public function makePublicLink($slug)
+	{
+		$hash = Crypt::encrypt($slug);
+		$link = "http://website-health-checker.test/project/public/{{$hash}}";
+		return $link;
+	}
+
+	public function showPublicProject($hash)
+	{
+		return Crypt::decrypt($hash);
 	}
 
 }
